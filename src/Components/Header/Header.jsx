@@ -26,6 +26,7 @@ import { Navigate } from "react-router-dom";
 import { selectIsAuthenticated } from "../Redux/isAuthentificatedSlice";
 // import CreateEventModal from "../CreateEventModal";
 import CreateEventModal from "./../CreateEventModal/index";
+import API from "../../requester";
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -41,6 +42,19 @@ const Header = () => {
 
   const handleCloseModal = () => {
     setModalOpen(false);
+  };
+
+  const handleNotificationsButtonClick = () => {
+    API.get("/notification/")
+      .then((response) => {
+        console.log(response.data);
+        alert("Содержание уведомления: " + response.data[0].content);
+        console.log("Response from notification endpoint:", response.data);
+        // alert("Notification Content: " + response.data.content);
+      })
+      .catch((error) => {
+        console.error("Error fetching notifications:", error);
+      });
   };
 
   return (
@@ -104,7 +118,7 @@ const Header = () => {
             <img src={MessageIcon} alt="" />
           </IconButton>
           <Box>
-            <IconButton>
+            <IconButton onClick={handleNotificationsButtonClick}>
               <img src={NotificationsIcon} alt="" />
             </IconButton>
           </Box>

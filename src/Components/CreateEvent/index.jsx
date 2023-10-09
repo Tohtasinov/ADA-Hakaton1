@@ -30,12 +30,11 @@ function CreateEventForm() {
       // Den AccessToken aus den Cookies abrufen
       const accessToken = cookies.accessToken || "";
 
-      // Überprüfen, ob der Benutzer authentifiziert ist
-      if (!isAuthenticated || !accessToken) {
-        // Zeige eine Meldung oder blockiere den Zugriff
-        console.log("Du bist nicht angemeldet.");
-        return;
-      }
+      // if (!isAuthenticated || !accessToken) {
+      //   // Zeige eine Meldung oder blockiere den Zugriff
+      //   console.log("Du bist nicht angemeldet.");
+      //   return;
+      // }
 
       // Hier kannst du deine API-Anfrage mit den Headers senden, die nur title und description enthalten
       const headers = {
@@ -86,7 +85,7 @@ function CreateEventForm() {
             required
             fullWidth
           />
-          <TextField
+          {/* <TextField
             type="text"
             name="img"
             label="Image Url"
@@ -94,7 +93,7 @@ function CreateEventForm() {
             onChange={handleInputChange}
             required
             fullWidth
-          />
+          /> */}
         </Box>
         <button type="submit">Veranstaltung erstellen</button>
       </form>

@@ -13,6 +13,7 @@ import { AvatarImg, Subscribe } from "./styles";
 export const UserProfile = () => {
   const { id } = useParams();
   const [userData, setUserData] = useState(null);
+  const [userPublicData, setUserPublicData] = useState(null);
 
   // Define the fetchUserData function
   const fetchUserData = async () => {
@@ -26,12 +27,24 @@ export const UserProfile = () => {
     }
   };
 
-  // Define the subscribe and unsubscribe functions
+  useEffect(() => {
+    fetchUserData();
+  }, [id, userPublicData]);
+
+  const fetchUserPublicData = async () => {
+    try {
+      const response = await API.get(`/user/${id}/public/`);
+      const userPublicData = response.data;
+      console.log("User Public Data:", userPublicData);
+      setUserPublicData(userPublicData);
+    } catch (error) {
+      console.log("Error fetching public data:", error);
+    }
+  };
+
   const subscribe = async () => {
     try {
-      // Sending a POST request to /user/id/subscribe/
       await API.post(`/user/${id}/subscribe/`);
-      // Update user data after successful subscription
       fetchUserData();
     } catch (error) {
       console.log("Error subscribing:", error);
@@ -40,9 +53,7 @@ export const UserProfile = () => {
 
   const unsubscribe = async () => {
     try {
-      // Sending a POST request to /user/id/unsubscribe/
       await API.post(`/user/${id}/unsubscribe/`);
-      // Update user data after successful unsubscription
       fetchUserData();
     } catch (error) {
       console.log("Error unsubscribing:", error);
@@ -92,6 +103,18 @@ export const UserProfile = () => {
           onClick={userData.isSubscribed ? unsubscribe : subscribe}
         >
           {userData.isSubscribed ? "Unsubscribe" : "Subscribe"}
+        </Button>
+        {userPublicData && (
+          <Typography variant="body1">
+            Description: {userPublicData.description}
+          </Typography>
+        )}
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={fetchUserPublicData} // Call fetchUserPublicData when the button is clicked
+        >
+          Fetch User Public Data
         </Button>
       </Box>
       <Divider />

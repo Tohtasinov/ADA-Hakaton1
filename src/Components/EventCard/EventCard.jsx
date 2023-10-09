@@ -1,12 +1,25 @@
 import React from "react";
-import { Box, Typography, Chip } from "@mui/material";
+import { Box, Typography, Chip, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import API from "../../requester";
 
 const EventCard = ({ event }) => {
   const navigate = useNavigate();
 
   const toDetails = () => {
     navigate(`/events/${event.id}`);
+  };
+
+  const handleParticipate = async () => {
+    try {
+      // Отправка POST-запроса для участия в событии
+      await API.post(`/events/${event.id}/follow/`);
+      // Обработка успешного участия или обновление интерфейса по необходимости
+      console.log("Успешное участие в событии!");
+    } catch (error) {
+      console.error("Ошибка при участии в событии:", error);
+    }
   };
 
   const defaultImage =
@@ -44,7 +57,6 @@ const EventCard = ({ event }) => {
         cursor: "pointer",
         margin: "16px",
       }}
-      onClick={toDetails}
     >
       <img
         width="100%"
@@ -68,6 +80,9 @@ const EventCard = ({ event }) => {
           {event.is_free ? "Price: Free" : "Price: $" + event.price}
         </Typography>
       </div>
+      <Button variant="contained" color="primary" onClick={handleParticipate}>
+        Участвовать
+      </Button>
     </Box>
   );
 };
