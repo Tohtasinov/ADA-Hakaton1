@@ -44,7 +44,7 @@ const EventList = () => {
   };
 
   return (
-    <div>
+    <div style={{ transform: "translateY(-90px)" }}>
       <img
         src={element1}
         alt="element"
