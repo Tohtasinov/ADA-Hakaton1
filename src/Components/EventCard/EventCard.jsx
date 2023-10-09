@@ -42,7 +42,10 @@ const EventCard = ({ event }) => {
         overflow: "hidden",
         boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
         cursor: "pointer",
-        margin: "16px",
+        transition: "150ms",
+        "&:hover": {
+          transform: "scale(1.03)",
+        },
       }}
       onClick={toDetails}
     >

@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import API from "../../requester";
 import EventCard from "../EventCard/EventCard";
 import element1 from "../../assets/element1.svg";
+import Hashtags from "../Hashtags";
+import { Box, Typography } from "@mui/material";
 
 const EventList = () => {
   const [events, setEvents] = useState([]);
@@ -44,29 +46,41 @@ const EventList = () => {
   };
 
   return (
-    <div style={{ transform: "translateY(-90px)" }}>
-      <img
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        flexDirection: "column",
+        transform: "translateY(-90px)",
+        maxWidth: "90%",
+        background: "#F0F0F0",
+        paddingLeft: "60px",
+        paddingRight: "60px",
+        paddingTop: "24px",
+        paddingBottom: "24px",
+        borderRadius: "16px",
+        margin: "0 auto",
+      }}
+    >
+      {/* <Hashtags /> */}
+      {/* <img
         src={element1}
         alt="element"
         width="1440px"
         style={{ padding: "0" }}
-      />
-      <h1 style={titleStyle}>Event List</h1>
+      /> */}
+      <Typography sx={{ mb: "16px", color: "black" }} variant="h4">
+        Events
+      </Typography>
       {error && <div style={errorStyle}>{error}</div>}
-      <div style={rowWrapperStyle}>
+      <Box sx={{ display: "flex", flexWrap: "wrap", marginBottom: "24px" }}>
         {Array.isArray(events) &&
           events.map((event) => (
             <div key={event.id} style={cardStyle}>
               <EventCard event={event} />
             </div>
           ))}
-      </div>
-      <img
-        src={element1}
-        alt="element"
-        width="1440px"
-        style={{ padding: "0" }}
-      />
+      </Box>
     </div>
   );
 };
