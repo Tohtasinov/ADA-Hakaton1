@@ -4,7 +4,7 @@ import Cookies from "js-cookie";
 import { Controller, useForm } from "react-hook-form";
 import { Login } from "../Login/Login";
 import axios from "axios";
-import { setTokenToCookies } from "../../cookies";
+import { setRefreshTokenToCookies, setTokenToCookies } from "../../cookies";
 
 export const Registration = () => {
   const {
@@ -21,9 +21,7 @@ export const Registration = () => {
 
       const getToken = await API.post("/api/token/", formData);
       const { access, refresh } = getToken.data;
-      console.log(access);
-      Cookies.set(access);
-      Cookies.set("refreshToken", refresh);
+      setRefreshTokenToCookies(refresh);
       setTokenToCookies(access);
 
       // window.location.href = "/main";

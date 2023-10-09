@@ -16,6 +16,7 @@ import Cookies from "js-cookie";
 import { Navigate } from "react-router-dom";
 import { selectIsAuthenticated } from "../Redux/isAuthentificatedSlice";
 // import CreateEventModal from "../CreateEventModal";
+import CreateEventModal from "./../CreateEventModal/index";
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -49,7 +50,7 @@ const Header = () => {
             <IconButton style={{ backgroundColor: "white", marginLeft: "63%" }}>
               <AddCircleIcon />
             </IconButton>
-            {/* <CreateEventModal /> */}
+            <CreateEventModal />
           </Box>
         </Grid>
         <Grid item xs={6}>

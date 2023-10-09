@@ -1,20 +1,20 @@
 import React, { useEffect } from "react";
 import { Navigate, Route, useNavigate } from "react-router-dom";
-import Cookies from "js-cookie";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setAuthenticated } from "../Redux/isAuthentificatedSlice";
+import { getTokenFromCookies } from "../../cookies";
 
 export const ProtectedRoute = ({ children }) => {
   const dispatch = useDispatch();
-  const isAuthenticated = !!Cookies.get("accessToken");
-
   const navigate = useNavigate();
 
-  if (!isAuthenticated) {
+  useEffect(() => {
+    const isAuthenticated = !!getTokenFromCookies(); // Use your getTokenFromCookies function to check authentication
     dispatch(setAuthenticated(isAuthenticated));
-    return <Navigate to="/" />;
-  } else {
-    dispatch(setAuthenticated(isAuthenticated));
-  }
+    if (!isAuthenticated) {
+      navigate("/"); // Redirect to the login page if not authenticated
+    }
+  }, [dispatch, navigate]);
+
   return children;
 };

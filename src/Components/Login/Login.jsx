@@ -4,6 +4,7 @@ import API from "../../requester";
 import Cookies from "js-cookie";
 import { Controller, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import { setRefreshTokenToCookies, setTokenToCookies } from "../../cookies";
 
 export const Login = ({ isModalOpen, handleCloseModal }) => {
   const {
@@ -18,11 +19,8 @@ export const Login = ({ isModalOpen, handleCloseModal }) => {
       console.log(formData);
       const response = await API.post("/api/token/", formData);
       const { access, refresh } = response.data;
-      Cookies.set("accessToken", access);
-      Cookies.set("refreshToken", refresh);
-      console.log("access", access);
-      console.log("refresh", refresh);
-
+      setTokenToCookies(access);
+      setRefreshTokenToCookies(refresh);
       // Weiterleitung oder andere Aktion nach der Anmeldung
       navigate("main");
       handleCloseModal(); // Schließt das Modal nach der Anmeldung

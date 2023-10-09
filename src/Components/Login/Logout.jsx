@@ -13,10 +13,10 @@ export const Logout = () => {
   const handleLogout = () => {
     // Hier kannst du die notwendigen Schritte zum Ausloggen durchführen.
     // Zum Beispiel, lösche den AccessToken-Cookie und setze die Authentifizierung auf false.
-    Cookies.remove("accessToken");
-    dispatch(setAuthenticated(false));
-    navigate("main");
+
     removeTokensFromCookies();
+    dispatch(setAuthenticated(false));
+    navigate("/");
     // Hier kannst du den Benutzer nach dem Ausloggen zu einer bestimmten Seite weiterleiten.
     // Zum Beispiel, zur Startseite ("/").
     // Falls du React Router verwendest, könntest du `useNavigate` verwenden, um zu navigieren.
