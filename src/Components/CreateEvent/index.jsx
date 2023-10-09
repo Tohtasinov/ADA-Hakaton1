@@ -3,6 +3,7 @@ import API from "../../requester";
 import { useSelector } from "react-redux";
 import { selectIsAuthenticated } from "../Redux/isAuthentificatedSlice";
 import { useCookies } from "react-cookie"; // Verwende react-cookie
+import { Box, TextField } from "@mui/material";
 
 function CreateEventForm() {
   const isAuthenticated = useSelector(selectIsAuthenticated);
@@ -65,27 +66,36 @@ function CreateEventForm() {
     <div>
       <h1>Event create</h1>
       <form onSubmit={handleSubmit}>
-        <label>
-          Titel:
-          <input
+        <Box sx={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+          <TextField
             type="text"
             name="title"
+            label="Title"
             value={eventData.title}
             onChange={handleInputChange}
             required
+            fullWidth
           />
-        </label>
-        <br />
-        <label>
-          description:
-          <textarea
+          <TextField
             name="description"
+            label="Description"
+            multiline
+            rows={4}
             value={eventData.description}
             onChange={handleInputChange}
             required
+            fullWidth
           />
-        </label>
-        <br />
+          <TextField
+            type="text"
+            name="img"
+            label="Image Url"
+            value={eventData.title}
+            onChange={handleInputChange}
+            required
+            fullWidth
+          />
+        </Box>
         <button type="submit">Veranstaltung erstellen</button>
       </form>
     </div>

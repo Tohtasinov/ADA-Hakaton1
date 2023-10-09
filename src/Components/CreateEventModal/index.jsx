@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { Button, Modal, Box } from "@mui/material";
+import { Button, Modal, Box, IconButton } from "@mui/material";
 import CreateEventForm from "../CreateEvent";
 import { useSelector } from "react-redux";
 import { selectIsAuthenticated } from "../Redux/isAuthentificatedSlice";
+import AddCircleIcon from "../../assets/Icons/add.svg";
 
 function CreateEventModal() {
   const isAuthenticated = useSelector(selectIsAuthenticated);
@@ -24,9 +25,9 @@ function CreateEventModal() {
 
   return (
     <div>
-      <Button variant="contained" onClick={handleOpen}>
-        Veranstaltung erstellen
-      </Button>
+      <IconButton onClick={handleOpen} sx={{ width: "53px", height: "53px" }}>
+        <img src={AddCircleIcon} alt="" />
+      </IconButton>
       <Modal open={open} onClose={handleClose}>
         <Box
           sx={{

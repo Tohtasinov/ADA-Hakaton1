@@ -76,10 +76,10 @@ const Header = () => {
           }}
         >
           <Avatar src={logo1} />
-          <IconButton sx={{ width: "53px", height: "53px" }}>
+          {/* <IconButton sx={{ width: "53px", height: "53px" }}>
             <img src={AddCircleIcon} alt="" />
-          </IconButton>
-          {/* <CreateEventModal /> */}
+          </IconButton> */}
+          <CreateEventModal />
         </Box>
         {/* Search Button */}
         <Box
