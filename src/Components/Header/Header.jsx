@@ -1,12 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { Box, Button, Grid, IconButton, Modal } from "@mui/material";
+import {
+  AppBar,
+  Avatar,
+  Box,
+  Button,
+  Grid,
+  IconButton,
+  Modal,
+  Toolbar,
+} from "@mui/material";
 import styles from "../Header/styles";
-import SearchIcon from "@mui/icons-material/Search";
-import MessageIcon from "@mui/icons-material/Message";
+import SearchIcon from "../../assets/Icons/search.svg";
+import MessageIcon from "../../assets/Icons/message.svg";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import NotificationsIcon from "@mui/icons-material/Notifications";
+import NotificationsIcon from "../../assets/Icons/notification.svg";
 import logo1 from "../../assets/logo1.svg";
-import AddCircleIcon from "@mui/icons-material/AddCircle";
+import AddCircleIcon from "../../assets/Icons/add.svg";
 import headerSh from "../../assets/headerSh.svg";
 import { Login } from "../Login/Login";
 import { useDispatch, useSelector } from "react-redux";
@@ -35,72 +44,93 @@ const Header = () => {
   };
 
   return (
-    <Box>
-      <Grid container spacing={2} sx={styles.header}>
+    <AppBar
+      position="sticky"
+      sx={{
+        px: "60px",
+        background: "transparent",
+        boxShadow: "none",
+        mt: "16px",
+      }}
+    >
+      <Toolbar
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
         {/* First row */}
-        <Grid item xs={6}>
-          <Box sx={styles.innerBox}>
-            <img
-              src={logo1}
-              alt="logo"
-              width={45}
-              height={45}
-              style={{ marginLeft: "15px" }}
-            />
-            <IconButton style={{ backgroundColor: "white", marginLeft: "63%" }}>
-              <AddCircleIcon />
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            gap: "16px",
+            width: "309px",
+            borderRadius: "8px 44px 44px 44px",
+            background: "rgba(42, 42, 42, 0.30)",
+            backdropFilter: "blur(20px)",
+            px: "16px",
+            py: "8px",
+          }}
+        >
+          <Avatar src={logo1} />
+          <IconButton sx={{ width: "53px", height: "53px" }}>
+            <img src={AddCircleIcon} alt="" />
+          </IconButton>
+          {/* <CreateEventModal /> */}
+        </Box>
+        {/* Search Button */}
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            gap: "16px",
+            width: "309px",
+            borderRadius: "44px 8px 44px 44px",
+            background: "rgba(42, 42, 42, 0.30)",
+            backdropFilter: "blur(20px)",
+            px: "16px",
+            py: "8px",
+          }}
+        >
+          <IconButton sx={{ width: "53px", height: "53px" }}>
+            <img src={SearchIcon} alt="" />
+          </IconButton>
+          {/* Message Button */}
+          <IconButton>
+            <img src={MessageIcon} alt="" />
+          </IconButton>
+          <Box>
+            <IconButton>
+              <img src={NotificationsIcon} alt="" />
             </IconButton>
-            <CreateEventModal />
           </Box>
-        </Grid>
-        <Grid item xs={6}>
-          <Box sx={styles.innerBox2}>
-            {/* Search Button */}
-            <Box sx={styles.buttonContainer}>
-              <IconButton style={{ backgroundColor: "white", color: "black" }}>
-                <SearchIcon />
-              </IconButton>
-            </Box>
-            {/* Message Button */}
-            <Box sx={styles.buttonContainer}>
-              <IconButton sx={styles.button}>
-                <MessageIcon />
-              </IconButton>
-            </Box>
-            <Box sx={styles.buttonContainer}>
-              <IconButton sx={styles.button}>
-                <NotificationsIcon />
-              </IconButton>
-            </Box>
-            {/* Account Button */}
+          {/* Account Button */}
 
-            {isAuthenticated ? (
-              <Logout />
-            ) : (
-              <>
-                <Box sx={styles.buttonContainer}>
-                  <IconButton
-                    sx={styles.button}
-                    onClick={handleAccountButtonClick}
-                  >
-                    <AccountCircleIcon />
-                  </IconButton>
-                </Box>
-                <Login
-                  isModalOpen={isModalOpen}
-                  handleCloseModal={handleCloseModal}
-                />
-              </>
-            )}
-          </Box>
-        </Grid>
+          {isAuthenticated ? (
+            <Logout />
+          ) : (
+            <>
+              <Box>
+                <Avatar onClick={handleAccountButtonClick} />
+              </Box>
+              <Login
+                isModalOpen={isModalOpen}
+                handleCloseModal={handleCloseModal}
+              />
+            </>
+          )}
+        </Box>
 
         {/* Second row */}
-        <Grid item xs={12} style={{ marginLeft: "80px" }}>
+        {/* <Grid item xs={12} style={{ marginLeft: "80px" }}>
           <img src={headerSh} alt="headerSh" />
-        </Grid>
-      </Grid>
-    </Box>
+        </Grid> */}
+      </Toolbar>
+    </AppBar>
   );
 };
 
