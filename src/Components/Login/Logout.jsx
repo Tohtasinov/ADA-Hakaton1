@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { setAuthenticated } from "../Redux/isAuthentificatedSlice";
 import { Box, Button } from "@mui/material";
 import { removeTokensFromCookies } from "../../cookies";
+import { setUser } from "../Redux/UserSlice";
 
 export const Logout = () => {
   const navigate = useNavigate();
@@ -16,6 +17,7 @@ export const Logout = () => {
 
     removeTokensFromCookies();
     dispatch(setAuthenticated(false));
+    dispatch(setUser(""));
     navigate("/");
     // Hier kannst du den Benutzer nach dem Ausloggen zu einer bestimmten Seite weiterleiten.
     // Zum Beispiel, zur Startseite ("/").

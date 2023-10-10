@@ -28,7 +28,14 @@ const Root = createBrowserRouter(
           </ProtectedRoute>
         }
       />
-      <Route path="profile/:id" element={<UserProfile />} />
+      <Route
+        path="profile/:id"
+        element={
+          <ProtectedRoute>
+            <UserProfile />
+          </ProtectedRoute>
+        }
+      />
       <Route path="login" element={<Login />} />
       <Route path="register" element={<Registration />} />
     </Route>

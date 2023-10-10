@@ -9,6 +9,8 @@ const EventList = () => {
   const [events, setEvents] = useState([]);
   const [error, setError] = useState(null);
 
+  console.log("Events", events);
+
   useEffect(() => {
     const fetchEvents = async () => {
       try {

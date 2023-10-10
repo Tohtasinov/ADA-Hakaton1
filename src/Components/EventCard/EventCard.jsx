@@ -1,12 +1,33 @@
 import React from "react";
-import { Box, Typography, Chip } from "@mui/material";
+import { Box, Typography, Chip, Avatar } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchUserByUsername } from "../Redux/UserSlice";
 
 const EventCard = ({ event }) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const toDetails = () => {
     navigate(`/events/${event.id}`);
+  };
+
+  const user = useSelector((state) => state.user);
+  const toUser = async (event) => {
+    navigate(`/profile/${event.user.id}`);
+    // try {
+    //   // Rufen Sie den Benutzer basierend auf event.user auf
+    //   await dispatch(fetchUserByUsername(event));
+    //   // Jetzt haben Sie den Benutzer im Redux-Speicher
+    //   // Navigieren Sie zur Benutzerprofilseite mit user.id
+    //   if (user.id) {
+    //     navigate(`/profile/${user.id}`);
+    //   } else {
+    //     console.log("User ID not found in Redux store.");
+    //   }
+    // } catch (error) {
+    //   console.log("Error fetching user by username:", error);
+    // }
   };
 
   const defaultImage =
@@ -47,7 +68,7 @@ const EventCard = ({ event }) => {
           transform: "scale(1.03)",
         },
       }}
-      onClick={toDetails}
+      // onClick={toDetails}
     >
       <img
         width="100%"
@@ -57,6 +78,18 @@ const EventCard = ({ event }) => {
         style={{ borderRadius: "8px 8px 0 0" }}
       />
       <div style={overlayStyle}>
+        <Avatar
+          sx={{
+            width: "24px",
+            height: "24px",
+            transition: "150ms",
+            "&:hover": {
+              transform: "scale(1.3)",
+            },
+          }}
+          src={event.user}
+          onClick={() => toUser(event)}
+        />
         <Typography fontWeight={700}>{event.title}</Typography>
         <Box sx={{ display: "flex", alignItems: "center" }}>
           <Typography fontWeight={600} sx={{ mr: 1 }}>
