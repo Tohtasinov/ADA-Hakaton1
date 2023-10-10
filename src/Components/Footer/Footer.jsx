@@ -20,7 +20,7 @@ const Footer = () => {
           <Grid container alignItems="center" justifyContent="center">
             <Grid item>
               <Typography variant="h4" color="primary">
-                Suzi Wong
+                Event
               </Typography>
             </Grid>
           </Grid>

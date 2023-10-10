@@ -98,6 +98,23 @@ export const Registration = () => {
           )}
         />
       </Box>
+      <Box>
+        <Controller
+          name="img"
+          control={control}
+          defaultValue=""
+          render={({ field }) => (
+            <TextField
+              {...field}
+              type="text"
+              label="Your Avatar Url"
+              variant="outlined"
+              error={!!errors.img}
+              helperText={errors.img?.message}
+            />
+          )}
+        />
+      </Box>
       <Button type="submit" variant="contained" color="primary">
         Зарегистрироваться
       </Button>

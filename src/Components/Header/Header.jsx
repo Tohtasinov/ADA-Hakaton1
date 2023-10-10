@@ -31,21 +31,32 @@ import { Navigate } from "react-router-dom";
 import { selectIsAuthenticated } from "../Redux/isAuthentificatedSlice";
 // import CreateEventModal from "../CreateEventModal";
 import CreateEventModal from "./../CreateEventModal/index";
+import {
+  fetchUser,
+  subscribeUser,
+  unsubscribeUser,
+} from "../Redux/UserSliceSub";
 
 const Header = () => {
   const [backgroundColor, setBackgroundColor] = useState("transparent");
+  const [fontSize, setFontSize] = useState("20px");
   const handleScroll = () => {
     const scrollPercentage = (window.scrollY / window.innerHeight) * 100;
 
-    if (scrollPercentage >= 10 && scrollPercentage < 20) {
+    if (scrollPercentage <= 10) {
       // Wenn der Benutzer 10% erreicht hat, ändere den Hintergrund auf eine Farbe
-      setBackgroundColor("#3EFF69");
-    } else if (scrollPercentage >= 20) {
+      setBackgroundColor("2px");
+    } else if (scrollPercentage >= 10 && scrollPercentage <= 20) {
       // Wenn der Benutzer 20% erreicht hat, ändere den Hintergrund auf eine andere Farbe
-      setBackgroundColor("#3ED1FF");
-    } else {
+      setBackgroundColor("10px");
+    } else if (scrollPercentage >= 20 && scrollPercentage <= 30) {
       // Wenn der Benutzer weniger als 10% erreicht hat, setze den Hintergrund zurück
-      setBackgroundColor("#AA3EFF");
+      setBackgroundColor("20px");
+      setFontSize("25px");
+    } else if (scrollPercentage >= 30) {
+      // Wenn der Benutzer weniger als 10% erreicht hat, setze den Hintergrund zurück
+      setBackgroundColor("25px");
+      setFontSize("30px");
     }
   };
 
@@ -61,8 +72,25 @@ const Header = () => {
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
+  const handleSubscribe = async () => {
+    if (user) {
+      // Benutzer ist eingeloggt
+      await dispatch(subscribeUser(user.id)); // Hier wird die subscribeUser-Thunk mit der Benutzer-ID aufgerufen
+      await dispatch(fetchUser(user.id));
+    }
+  };
+
+  // Funktion zum Deabonnieren eines Benutzers
+  const handleUnsubscribe = () => {
+    if (user) {
+      // Benutzer ist eingeloggt
+      dispatch(unsubscribeUser(user.id)); // Hier wird die unsubscribeUser-Thunk mit der Benutzer-ID aufgerufen
+      dispatch(fetchUser(user.id));
+    }
+  };
+
   const isAuthenticated = useSelector(selectIsAuthenticated);
-  console.log("isAuthenticated---from header", isAuthenticated);
+  console.log("isAuthenticated---from header", user);
 
   const [isModalOpen, setModalOpen] = useState(false);
 
@@ -73,6 +101,12 @@ const Header = () => {
   const handleCloseModal = () => {
     setModalOpen(false);
   };
+
+  useEffect(() => {
+    if (user) {
+      dispatch(fetchUser(user.id));
+    }
+  }, [user]);
   // const userImage = user.img[0];
   return (
     <AppBar
@@ -111,22 +145,30 @@ const Header = () => {
           <Box
             sx={{
               display: "flex",
-              gap: "16px",
               alignItems: "center",
               justifyContent: "space-between",
             }}
           >
             {user ? (
-              <Avatar src={user && user.img && user.img[0]} />
+              <Avatar src={user && user.img} />
             ) : (
-              <Box sx={{ height: "50px" }}>
-                <img src={Logo} alt="" style={{ height: "100%" }} />
-              </Box>
+              <Typography
+                sx={{
+                  transition: "letter-spacing 150ms",
+                  letterSpacing: backgroundColor,
+                  fontSize: fontSize,
+                }}
+              >
+                Event
+              </Typography>
             )}
-            {user && <Typography>{user.user}</Typography>}
+            {user && <Typography>{user.img}</Typography>}
           </Box>
           {user ? (
-            <Button sx={{ height: "53px", borderRadius: "44px", px: "24px" }}>
+            <Button
+              sx={{ height: "53px", borderRadius: "44px", px: "24px" }}
+              onClick={handleSubscribe}
+            >
               subscribe
             </Button>
           ) : (
