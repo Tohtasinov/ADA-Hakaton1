@@ -70,6 +70,7 @@ const Header = () => {
     };
   }, []);
   const user = useSelector((state) => state.user);
+  console.log("user from header", user);
   const dispatch = useDispatch();
 
   const handleSubscribe = async () => {
@@ -81,11 +82,13 @@ const Header = () => {
   };
 
   // Funktion zum Deabonnieren eines Benutzers
+  const [now, setNow] = useState(false);
   const handleUnsubscribe = () => {
     if (user) {
       // Benutzer ist eingeloggt
       dispatch(unsubscribeUser(user.id)); // Hier wird die unsubscribeUser-Thunk mit der Benutzer-ID aufgerufen
       dispatch(fetchUser(user.id));
+      setNow(true);
     }
   };
 
@@ -103,10 +106,11 @@ const Header = () => {
   };
 
   useEffect(() => {
-    if (user) {
+    if (now) {
       dispatch(fetchUser(user.id));
+      console.log("es hat funktioniert");
     }
-  }, [user]);
+  }, [now]);
   // const userImage = user.img[0];
   return (
     <AppBar
@@ -162,7 +166,7 @@ const Header = () => {
                 Event
               </Typography>
             )}
-            {user && <Typography>{user.img}</Typography>}
+            {user && <Typography>{user.user}</Typography>}
           </Box>
           {user ? (
             <Button
