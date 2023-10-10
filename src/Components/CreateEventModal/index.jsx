@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import { selectIsAuthenticated } from "../Redux/isAuthentificatedSlice";
 import AddCircleIcon from "../../assets/Icons/add.svg";
 
-function CreateEventModal() {
+function CreateEventModal(handleClick) {
   const isAuthenticated = useSelector(selectIsAuthenticated);
 
   const [open, setOpen] = useState(false);
@@ -41,7 +41,10 @@ function CreateEventModal() {
             p: 4,
           }}
         >
-          <CreateEventForm handleClose={handleClose} />
+          <CreateEventForm
+            handleClose={handleClose}
+            handleClick={handleClick}
+          />
         </Box>
       </Modal>
     </div>

@@ -8,6 +8,7 @@ import {
   Grid,
   IconButton,
   Modal,
+  Snackbar,
   Toolbar,
   Typography,
 } from "@mui/material";
@@ -22,6 +23,8 @@ import headerSh from "../../assets/headerSh.svg";
 import { Login } from "../Login/Login";
 import { useDispatch, useSelector } from "react-redux";
 import { Logout } from "./../Login/Logout";
+import CloseIcon from "@mui/icons-material/Close";
+import Logo from "../../assets/logotip.svg";
 
 import Cookies from "js-cookie";
 import { Navigate } from "react-router-dom";
@@ -30,6 +33,31 @@ import { selectIsAuthenticated } from "../Redux/isAuthentificatedSlice";
 import CreateEventModal from "./../CreateEventModal/index";
 
 const Header = () => {
+  const [backgroundColor, setBackgroundColor] = useState("transparent");
+  const handleScroll = () => {
+    const scrollPercentage = (window.scrollY / window.innerHeight) * 100;
+
+    if (scrollPercentage >= 10 && scrollPercentage < 20) {
+      // Wenn der Benutzer 10% erreicht hat, ändere den Hintergrund auf eine Farbe
+      setBackgroundColor("#3EFF69");
+    } else if (scrollPercentage >= 20) {
+      // Wenn der Benutzer 20% erreicht hat, ändere den Hintergrund auf eine andere Farbe
+      setBackgroundColor("#3ED1FF");
+    } else {
+      // Wenn der Benutzer weniger als 10% erreicht hat, setze den Hintergrund zurück
+      setBackgroundColor("#AA3EFF");
+    }
+  };
+
+  useEffect(() => {
+    // Füge den Event-Listener beim Mounten der Komponente hinzu
+    window.addEventListener("scroll", handleScroll);
+
+    // Entferne den Event-Listener beim Unmounten der Komponente
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
@@ -67,71 +95,101 @@ const Header = () => {
         <Box
           sx={{
             display: "flex",
-            justifyContent: user ? "" : "space-between",
-            flexDirection: user ? "column" : "row",
-            alignItems: "flex-start",
+            alignItems: "center",
+            justifyContent: "space-between",
             gap: "16px",
             width: "309px",
             borderRadius: "8px 44px 44px 44px",
-            background: user ? "black" : "rgba(42, 42, 42, 0.30)",
+            background: user
+              ? "rgba(42, 42, 42, 0.30)"
+              : "rgba(42, 42, 42, 0.30)",
             backdropFilter: "blur(20px)",
             px: "16px",
             py: "8px",
           }}
         >
-          <Box sx={{ display: "flex", gap: "16px", alignItems: "center" }}>
-            <Avatar src={user && user.img && user.img[0]} />
+          <Box
+            sx={{
+              display: "flex",
+              gap: "16px",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
+            {user ? (
+              <Avatar src={user && user.img && user.img[0]} />
+            ) : (
+              <Box sx={{ height: "50px" }}>
+                <img src={Logo} alt="" style={{ height: "100%" }} />
+              </Box>
+            )}
             {user && <Typography>{user.user}</Typography>}
           </Box>
-
           {user ? (
+            <Button sx={{ height: "53px", borderRadius: "44px", px: "24px" }}>
+              subscribe
+            </Button>
+          ) : (
+            <Box>
+              <CreateEventModal />
+              {/* <Snackbar
+                open={openSnack}
+                autoHideDuration={6000}
+                onClose={handleClose}
+                message="Note archived"
+                action={action}
+              /> */}
+            </Box>
+          )}
+        </Box>
+
+        {user && (
+          <Box
+            container
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              gap: "8px",
+              width: "309px",
+              borderRadius: "44px",
+              background: "rgba(42, 42, 42, 0.30)",
+              backdropFilter: "blur(20px)",
+              padding: "8px",
+            }}
+          >
             <Box
-              container
               sx={{
                 display: "flex",
                 justifyContent: "space-between",
-                width: "100%",
+                alignItems: "center",
+                gap: "16px",
               }}
             >
               <Box
                 sx={{
                   display: "flex",
-                  px: "16px",
-                  gap: "8px",
+                  justifyContent: "center",
+                  flexDirection: "column",
+                  alignItems: "center",
                 }}
               >
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    flexDirection: "column",
-                    alignItems: "center",
-                  }}
-                >
-                  <Typography>{user.followers}</Typography>
-                  <Typography sx={{ fontSize: "12px" }}>followers</Typography>
-                </Box>
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    flexDirection: "column",
-                    alignItems: "center",
-                  }}
-                >
-                  <Typography>{user.following}</Typography>
-                  <Typography sx={{ fontSize: "12px" }}>followed</Typography>
-                </Box>
+                <Typography>{user.followers}</Typography>
+                <Typography sx={{ fontSize: "12px" }}>followers</Typography>
               </Box>
-              <Button sx={{ height: "53px", borderRadius: "44px", px: "24px" }}>
-                subscribe
-              </Button>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  flexDirection: "column",
+                  alignItems: "center",
+                }}
+              >
+                <Typography>{user.following}</Typography>
+                <Typography sx={{ fontSize: "12px" }}>followed</Typography>
+              </Box>
             </Box>
-          ) : (
-            <CreateEventModal />
-          )}
-        </Box>
-        {/* Search Button */}
+          </Box>
+        )}
         <Box
           sx={{
             display: "flex",

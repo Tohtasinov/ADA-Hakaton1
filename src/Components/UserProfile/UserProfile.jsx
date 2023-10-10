@@ -14,6 +14,23 @@ import { setUser } from "../Redux/UserSlice";
 import EventCard from "../EventCard/EventCard";
 
 export const UserProfile = () => {
+  const handleBackButton = (event) => {
+    // Hier kannst du deine Logik ausführen, wenn der Benutzer den Zurück-Button des Browsers klickt
+    console.log("Der Benutzer hat den Zurück-Button geklickt.");
+    dispatch(setUser(null));
+  };
+
+  useEffect(() => {
+    // Füge den Event-Listener für das Zurück-Button-Ereignis hinzu
+    window.addEventListener("popstate", handleBackButton);
+
+    // Entferne den Event-Listener beim Unmounten der Komponente
+    return () => {
+      window.removeEventListener("popstate", handleBackButton);
+      dispatch(setUser(null));
+    };
+  }, []);
+
   const { id } = useParams();
   const [userData, setUserData] = useState(null);
   const [userEvents, setUserEvents] = useState([]);

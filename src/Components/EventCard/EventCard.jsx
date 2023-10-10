@@ -14,7 +14,7 @@ const EventCard = ({ event }) => {
 
   const user = useSelector((state) => state.user);
   const toUser = async (event) => {
-    navigate(`/profile/${event.user.id}`);
+    navigate(`/profile/${event.user}`);
     // try {
     //   // Rufen Sie den Benutzer basierend auf event.user auf
     //   await dispatch(fetchUserByUsername(event));

@@ -5,8 +5,11 @@ import Cookies from "js-cookie";
 import { Controller, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { setRefreshTokenToCookies, setTokenToCookies } from "../../cookies";
+import { setAuthenticated } from "../Redux/isAuthentificatedSlice";
+import { useDispatch } from "react-redux";
 
 export const Login = ({ isModalOpen, handleCloseModal }) => {
+  const dispatch = useDispatch();
   const {
     control,
     handleSubmit,
@@ -21,6 +24,8 @@ export const Login = ({ isModalOpen, handleCloseModal }) => {
       const { access, refresh } = response.data;
       setTokenToCookies(access);
       setRefreshTokenToCookies(refresh);
+      dispatch(setAuthenticated(true));
+
       // Weiterleitung oder andere Aktion nach der Anmeldung
       navigate("main");
       handleCloseModal(); // Schließt das Modal nach der Anmeldung
